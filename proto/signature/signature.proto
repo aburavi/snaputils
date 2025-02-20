@@ -1,0 +1,33 @@
+syntax = "proto3";
+option go_package = "./proto/signature";
+
+package signature;
+
+// Interface exported by the server.
+service Signature {
+  rpc PostAuthSignature(AuthSignatureRequest) returns (SignatureResponse) {}
+  rpc PostTrxSignature(TrxSignatureRequest) returns (SignatureResponse) {}
+}
+
+message AuthSignatureRequest {
+  string version = 1;
+  string clientId = 2;
+  string xTimestamp = 3 [json_name = "X-Timestamp"];
+}
+
+message SignatureResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string signature = 3;
+}
+
+message TrxSignatureRequest {
+  string version = 1;
+  string method = 2;
+  string urlPath = 3;
+  string accessToken = 4;
+  string body = 5;
+  string xTimestamp = 6 [json_name = "X-Timestamp"];
+  string clientSecret = 7;
+  string clientId = 8;
+}
