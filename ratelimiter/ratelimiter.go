@@ -9,7 +9,7 @@ import (
 
 	//"strings"
 
-	"snaputils/proto/ratelimiter"
+	"github.com/aburavi/snaputils/proto/ratelimiter"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"

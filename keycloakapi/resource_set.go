@@ -5,7 +5,7 @@ import (
 	//"errors"
 	"time"
 
-	"snaputils/proto/auth"
+	"github.com/aburavi/snaputils/proto/auth"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"

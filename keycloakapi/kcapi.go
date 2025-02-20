@@ -11,8 +11,8 @@ import (
 	"strconv"
 	"strings"
 
-	"snaputils/apisignature"
-	"snaputils/proto/auth"
+	"github.com/aburavi/snaputils/apisignature"
+	"github.com/aburavi/snaputils/proto/auth"
 
 	"github.com/valyala/fasthttp"
 	"google.golang.org/grpc/codes"

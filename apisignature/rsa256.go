@@ -11,9 +11,10 @@ import (
 	"encoding/pem"
 	"fmt"
 	"os"
-	"snaputils/proto/backend"
 	"strings"
 	"time"
+
+	"github.com/aburavi/snaputils/proto/backend"
 
 	"github.com/valyala/fasthttp"
 	"golang.org/x/net/context"

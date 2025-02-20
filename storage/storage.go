@@ -9,7 +9,7 @@ import (
 	//"strconv"
 	//"strings"
 
-	"snaputils/proto/storage"
+	"github.com/aburavi/snaputils/proto/storage"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/status"

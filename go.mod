@@ -1,4 +1,4 @@
-module snaputils
+module github.com/aburavi/snaputils
 
 go 1.23.2
 
