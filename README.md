@@ -1,2 +1,0 @@
-# snaputils
-snap utils

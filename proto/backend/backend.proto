@@ -1,0 +1,37 @@
+syntax = "proto3";
+option go_package = "./proto/backend";
+
+package backend;
+
+// Interface exported by the server.
+service Backend {
+  rpc GetClientKey(ClientKeyRequest) returns (ClientKeyResponse) {}
+  rpc GetUserKey(UserKeyRequest) returns (UserKeyResponse) {}
+}
+
+message ClientKeyRequest {
+  string clientId = 1;
+}
+
+// The response message containing the greetings
+message ClientKeyResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string privateKey = 3;
+  string publicKey = 4;
+  string clientSecret = 5;
+}
+
+// The request message containing the user's name.
+message UserKeyRequest {
+  string userId = 1;
+}
+
+// The response message containing the greetings
+message UserKeyResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string privateKey = 3;
+  string publicKey = 4;
+  string clientSecret = 5;
+}

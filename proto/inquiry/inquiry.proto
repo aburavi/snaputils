@@ -1,0 +1,102 @@
+syntax = "proto3";
+option go_package = "./proto/inquiry";
+
+package inquiry;
+
+// Interface exported by the server.
+service Inquiry {
+  rpc PostBalanceInquiry(BalanceInquiryRequest) returns (BalanceInquiryResponse) {}
+  rpc PostExternalAccountInquiry(ExternalAccountInquiryRequest) returns (ExternalAccountInquiryResponse) {}
+  rpc PostInternalAccountInquiry(InternalAccountInquiryRequest) returns (InternalAccountInquiryResponse) {}
+}
+
+message Info {
+  string deviceId = 1;
+  string channel = 2;
+}
+
+message InternalInfo {
+  string deviceId = 1;
+  string channel = 2;
+  string productId = 3;
+}
+
+message Avalue {
+  string value = 1;
+  string currency = 2;
+}
+
+message AccInfo {
+  string balanceType = 1; 
+  Avalue amount = 2;
+  Avalue floatAmount = 3;
+  Avalue holdAmount = 4;
+  Avalue availableBalance = 5; 
+  Avalue ledgerBalance = 6;
+  Avalue currentMultilateralLimit = 7; 
+  string registrationStatusCode = 8;
+  string Status = 9;
+}
+
+// The request message containing the user's name.
+message BalanceInquiryRequest {
+  string partnerReferenceNo = 1;
+  string bankCardToken = 2;
+  string accountNo = 3;
+  repeated string balanceType = 4;
+  Info additionalInfo = 5;
+}
+
+// The response message containing the greetings
+message BalanceInquiryResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string referenceNo = 3;
+  string partnerReferenceNo = 4;
+  string accountNo = 5;
+  string name = 6;
+  repeated AccInfo accountInfo = 7;
+}
+
+// The request message containing the user's name.
+message ExternalAccountInquiryRequest {
+  string beneficiaryBankCode = 1;
+  string beneficiaryAccountNo = 2;
+  string partnerReferenceNo = 3;
+  Info additionalInfo = 4;
+}
+
+// The response message containing the greetings
+message ExternalAccountInquiryResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string referenceNo = 3;
+  string partnerReferenceNo = 4;
+  string beneficiaryAccountName = 5;
+  string beneficiaryAccountNo = 6;
+  string beneficiaryBankCode = 7;
+  string beneficiaryBankName = 8;
+  string currency = 9;
+  Info additionalInfo = 10;
+}
+
+// The request message containing the user's name.
+message InternalAccountInquiryRequest {
+  string partnerReferenceNo = 1;
+  string beneficiaryAccountNo = 2;
+  InternalInfo additionalInfo = 3;
+}
+
+// The response message containing the greetings
+message InternalAccountInquiryResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string referenceNo = 3;
+  string partnerReferenceNo = 4;
+  string beneficiaryAccountName = 5;
+  string beneficiaryAccountNo = 6;
+  string beneficiaryAccountStatus = 7;
+  string beneficiaryAccountType = 8;
+  string currency = 9;
+  InternalInfo additionalInfo = 10;
+}
