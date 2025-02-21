@@ -24,7 +24,7 @@ type ResourceSet struct {
 	Uris []string `json:"uris,omitempty"`
 }
 
-func KeycloakAuthV1(ctx context.Context, req *authv1.AuthV1Request, backendgrpc string) (*authv1.AuthV1Response, error) {
+func KeycloakAuthV1(ctx context.Context, req *authv1.AuthV1Request) (*authv1.AuthV1Response, error) {
 	var base = os.Getenv("URL_KEYCLOAK_BASE")
 	var uri = base + "/realms/openapi/protocol/openid-connect/token"
 
@@ -179,7 +179,7 @@ func KeycloakAuthV1(ctx context.Context, req *authv1.AuthV1Request, backendgrpc 
 	return &protosdata, nil
 }
 
-func KeycloakRefreshAuthV1(ctx context.Context, req *authv1.RefreshAuthV1Request, backendgrpc string) (*authv1.RefreshAuthV1Response, error) {
+func KeycloakRefreshAuthV1(ctx context.Context, req *authv1.RefreshAuthV1Request) (*authv1.RefreshAuthV1Response, error) {
 	var base = os.Getenv("URL_KEYCLOAK_BASE")
 	var uri = base + "/realms/openapi/protocol/openid-connect/token"
 
