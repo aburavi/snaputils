@@ -7,7 +7,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 // Package errs defines the error handling used by all Upspin software.
-package errs
+package utils
 
 import (
 	"errors"

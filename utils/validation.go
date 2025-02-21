@@ -1,4 +1,4 @@
-package errs
+package utils
 
 // MissingField is an error type that can be used when
 // validating input fields that do not have a value, but should

@@ -18,6 +18,13 @@ import (
 )
 
 var publicKey = []byte(`-----BEGIN PUBLIC KEY-----
+MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkgmyeA4xzrTx8BGK75pe
+xoZq+TaaUaMZpoRWN2ryyJiRzM7QB1pb/IkyrPNUfMu4g4OzlDpdWhhF5G5/3f1s
+l5RFUjj4vBYzu6hussNhqnyNlKpEw5Lm9e1O8ixgmwmZSFw8dQjwPZmkFoQbIxUe
+OvfgAqkLEp15eioN0G3pm1t+kA2yBjZ89Qk57YZNxBfBFddYmAfVnC5f2mfehZWC
+4MeG2j0WkACMCF1HM3Uy4IMdSzupJU8pG1NTeNmibf23Px0TPRabhczu/39gJHg6
+PrjGeqeD5RK82zECuc5nFzx06rbixeG/1bszLVSmgOSQ0DWvop07KaATW8pPvc9C
+bQIDAQAB
 -----END PUBLIC KEY-----`)
 
 // mode=0 -> grpc
@@ -57,12 +64,12 @@ func RSA_OAEP_Encrypt(secretMessage string, clientSecret string, mode int) (stri
 
 // mode=0 -> grpc
 // mode=1 -> http
-func RSA_OAEP_Decrypt(backendgrpc, msg, sig, clientId string, mode int) (string, bool, error) {
+func RSA_OAEP_Decrypt(msg, sig, clientId string, mode int) (string, bool, error) {
 	valsecret := ""
 	valpkey := ""
 
 	if mode == 0 {
-		ddata, err1 := getPublicKeyGrpc(backendgrpc, clientId)
+		ddata, err1 := getPublicKeyGrpc(clientId)
 		if err1 != nil {
 			er1 := fmt.Sprintf("service hit failed: %s\n", err1)
 			derr := status.Errorf(4001102, er1)
@@ -128,8 +135,8 @@ func RSA_OAEP_Decrypt(backendgrpc, msg, sig, clientId string, mode int) (string,
 	return secret, true, nil
 }
 
-func AUTH_RSA_OAEP_Encrypt(backendgrpc, secretMessage string, clientid string) (string, error) {
-	ddata, err1 := getPrivateKeyGrpc(backendgrpc, clientid)
+func AUTH_RSA_OAEP_Encrypt(secretMessage string, clientid string) (string, error) {
+	ddata, err1 := getPrivateKeyGrpc(clientid)
 	if err1 != nil {
 		er1 := fmt.Sprintf("service hit failed: %s\n", err1)
 		derr := status.Errorf(4001002, er1)
@@ -174,9 +181,9 @@ func AUTH_RSA_OAEP_Encrypt(backendgrpc, secretMessage string, clientid string) (
 	return ct, nil
 }
 
-func TRX_RSA_OAEP_Encrypt(backendgrpc, secretMessage string, clientid string) (string, error) {
+func TRX_RSA_OAEP_Encrypt(secretMessage string, clientid string) (string, error) {
 	s := secretMessage
-	ddata, err1 := getPublicKeyGrpc(backendgrpc, clientid)
+	ddata, err1 := getPublicKeyGrpc(clientid)
 	if err1 != nil {
 		er1 := fmt.Sprintf("service hit failed: %s\n", err1)
 		derr := status.Errorf(4001002, er1)

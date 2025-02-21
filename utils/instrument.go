@@ -1,4 +1,4 @@
-package gokit_metrics
+package utils
 
 import (
 	"time"

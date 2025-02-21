@@ -17,7 +17,8 @@ import (
 	"google.golang.org/grpc/credentials/insecure"
 )
 
-func getPrivateKeyGrpc(backendgrpc, clientId string) (string, error) {
+func getPrivateKeyGrpc(clientId string) (string, error) {
+	var backendgrpc = os.Getenv("URL_BACKEND_BASE")
 	conn, err := grpc.NewClient(backendgrpc, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		er1 := fmt.Sprintf("fail to dial: %v", err)
@@ -82,7 +83,8 @@ func getPrivateKeyHttp(clientId string) (string, error) {
 	return p.Data.ClientSecret + "|" + p.Data.PrivateKey, nil
 }
 
-func getPublicKeyGrpc(backendgrpc, clientId string) (string, error) {
+func getPublicKeyGrpc(clientId string) (string, error) {
+	var backendgrpc = os.Getenv("URL_BACKEND_BASE")
 	conn, err := grpc.NewClient(backendgrpc, grpc.WithTransportCredentials(insecure.NewCredentials()))
 	if err != nil {
 		er1 := fmt.Sprintf("fail to dial: %v", err)
@@ -107,8 +109,10 @@ func getPublicKeyGrpc(backendgrpc, clientId string) (string, error) {
 	return dstring, nil
 }
 
-func getPublicKeyHttp(backendbase, cryptoToken, clientId string) (string, error) {
-	var uri = backendbase + "/api/v1/basecrypto/apps/key/" + clientId
+func getPublicKeyHttp(clientId string) (string, error) {
+	var backendhttp = os.Getenv("URL_BACKEND_BASE")
+	var cryptoToken = os.Getenv("CRYPTO_TOKEN")
+	var uri = backendhttp + "/api/v1/basecrypto/apps/key/" + clientId
 
 	type Key struct {
 		ClientSecret string `json:"client_secret, omitempty"`
@@ -146,10 +150,10 @@ func getPublicKeyHttp(backendbase, cryptoToken, clientId string) (string, error)
 	return p.Data.ClientSecret + "|" + p.Data.PublicKey, nil
 }
 
-func CekTokenExist(backendgrpc, clientid string) (string, error) {
+func CekTokenExist(clientid string) (string, error) {
 	var future1 async.Future
 	future1 = async.Exec(func() (interface{}, error) {
-		data_clientkey, err1 := getPublicKeyGrpc(backendgrpc, clientid)
+		data_clientkey, err1 := getPublicKeyGrpc(clientid)
 		return data_clientkey, err1
 	})
 
