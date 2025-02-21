@@ -41,7 +41,7 @@ type Error struct {
 	// The underlying error that triggered this one, if any.
 	Err error
 
-	Message string `json:"msg"`
+	Message string
 }
 
 func (e *Error) isZero() bool {
@@ -125,6 +125,8 @@ type Code string
 // Realm should be set when error Kind is Unauthenticated. If left unset, Realm
 // will be set to the default set by the Default method
 type Realm string
+
+type Message string
 
 // Kinds of errors.
 //
