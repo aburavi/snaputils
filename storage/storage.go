@@ -2,6 +2,8 @@ package storage
 
 import (
 	"fmt"
+	"os"
+
 	//"errors"
 	"context"
 	"time"
@@ -15,7 +17,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func GrpcExternalId(storegrpc, userid, refid, datetime string) (*storage.ExternalIdResponse, error) {
+func GrpcExternalId(userid, refid, datetime string) (*storage.ExternalIdResponse, error) {
+	var storegrpc = os.Getenv("URL_STORE_BASE")
 	conn, err := grpc.Dial(storegrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
@@ -39,7 +42,8 @@ func GrpcExternalId(storegrpc, userid, refid, datetime string) (*storage.Externa
 	return response, nil
 }
 
-func GrpcRefferenceNo(storegrpc, userid, refid, datetime string) (*storage.ReffNoResponse, error) {
+func GrpcRefferenceNo(userid, refid, datetime string) (*storage.ReffNoResponse, error) {
+	var storegrpc = os.Getenv("URL_STORE_BASE")
 	conn, err := grpc.Dial(storegrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
@@ -64,7 +68,8 @@ func GrpcRefferenceNo(storegrpc, userid, refid, datetime string) (*storage.ReffN
 	return response, nil
 }
 
-func GrpcSetTrxId(storegrpc, userid, orirefid, refid string) (*storage.TrxIdResponse, error) {
+func GrpcSetTrxId(userid, orirefid, refid string) (*storage.TrxIdResponse, error) {
+	var storegrpc = os.Getenv("URL_STORE_BASE")
 	conn, err := grpc.Dial(storegrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
@@ -89,7 +94,8 @@ func GrpcSetTrxId(storegrpc, userid, orirefid, refid string) (*storage.TrxIdResp
 	return response, nil
 }
 
-func GrpcGetTrxId(storegrpc, userid, orirefid string) (*storage.TrxIdResponse, error) {
+func GrpcGetTrxId(userid, orirefid string) (*storage.TrxIdResponse, error) {
+	var storegrpc = os.Getenv("URL_STORE_BASE")
 	conn, err := grpc.Dial(storegrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)

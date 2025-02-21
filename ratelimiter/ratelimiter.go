@@ -2,6 +2,8 @@ package ratelimiter
 
 import (
 	"fmt"
+	"os"
+
 	//"errors"
 	"context"
 	"strconv"
@@ -15,7 +17,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func GrpcPushSlidingWindow(ratelimitergrpc, userid, max string) (*ratelimiter.RatelimiterPushSlidingWindowResponse, error) {
+func GrpcPushSlidingWindow(userid, max string) (*ratelimiter.RatelimiterPushSlidingWindowResponse, error) {
+	var ratelimitergrpc = os.Getenv("URL_STORE_BASE")
 	conn, err := grpc.Dial(ratelimitergrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
