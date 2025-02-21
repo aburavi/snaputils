@@ -107,7 +107,7 @@ func KeycloakAuthV1(ctx context.Context, req *authv1.AuthV1Request) (*authv1.Aut
 	}
 
 	dmsg := clientId + "|" + xTimestamp
-	sig, valid, err := apisignature.RSA_OAEP_Decrypt(dmsg, dsig, clientId, 0)
+	sig, valid, err := apisignature.RSA_OAEP_Decrypt_Http(dmsg, dsig, clientId, 0)
 	if (err != nil) && (valid == false) {
 		fmt.Printf("Signature failed: %s\n", err)
 		protosdata.ResponseCode = "4017300"
@@ -262,7 +262,7 @@ func KeycloakRefreshAuthV1(ctx context.Context, req *authv1.RefreshAuthV1Request
 		}
 	}
 	dmsg := clientId + "|" + xTimestamp
-	sig, valid, err := apisignature.RSA_OAEP_Decrypt(dmsg, dsig, clientId, 0)
+	sig, valid, err := apisignature.RSA_OAEP_Decrypt_Http(dmsg, dsig, clientId, 0)
 	if (err != nil) && (valid == false) {
 		fmt.Printf("Signature refresh get failed: %s\n", sig)
 		protosdata.ResponseCode = "99"
@@ -362,7 +362,7 @@ func KeycloakAuthV1Http(req *http.Request) (*authv1.AuthV1Response, error) {
 
 	mesg := clientId + "|" + xTimestamp
 
-	sig, valid, err := apisignature.RSA_OAEP_Decrypt(mesg, dsig, clientId, 1)
+	sig, valid, err := apisignature.RSA_OAEP_Decrypt_Http(mesg, dsig, clientId, 1)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

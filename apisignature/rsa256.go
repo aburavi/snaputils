@@ -169,3 +169,28 @@ func CekTokenExist(clientid string) (string, error) {
 
 	return secret[0], nil
 }
+
+func getUserKeyGrpc(user_id string) (string, error) {
+	var backendgrpc = os.Getenv("URL_BACKEND_BASE")
+	conn, err := grpc.Dial(backendgrpc, grpc.WithInsecure())
+	if err != nil {
+		er1 := fmt.Sprintf("fail to dial: %v", err)
+		derr := status.Errorf(4001102, er1)
+		return "None", derr
+	}
+	defer conn.Close()
+
+	client := backend.NewBackendClient(conn)
+	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
+	//defer cancel()
+
+	response, err := client.GetUserKey(ctx, &backend.UserKeyRequest{UserId: user_id})
+	if err != nil {
+		er2 := fmt.Sprintf("Error when callin privatekey: %s", err)
+		derr := status.Errorf(4001102, er2)
+		return "None", derr
+	}
+	fmt.Println("Response from server: %s", response)
+
+	return response.ClientSecret + "|" + response.PrivateKey, nil
+}

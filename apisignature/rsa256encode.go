@@ -14,6 +14,8 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/aburavi/snaputils/async"
+
 	"google.golang.org/grpc/status"
 )
 
@@ -64,7 +66,7 @@ func RSA_OAEP_Encrypt(secretMessage string, clientSecret string, mode int) (stri
 
 // mode=0 -> grpc
 // mode=1 -> http
-func RSA_OAEP_Decrypt(msg, sig, clientId string, mode int) (string, bool, error) {
+func RSA_OAEP_Decrypt_Http(msg, sig, clientId string, mode int) (string, bool, error) {
 	valsecret := ""
 	valpkey := ""
 
@@ -133,6 +135,45 @@ func RSA_OAEP_Decrypt(msg, sig, clientId string, mode int) (string, bool, error)
 	}
 
 	return secret, true, nil
+}
+
+func RSA_OAEP_Decrypt(cipherText, clientid string) (string, error) {
+	var future1 async.Future
+	future1 = async.Exec(func() (interface{}, error) {
+		data_userkey, err1 := getUserKeyGrpc(clientid)
+		return data_userkey, err1
+	})
+
+	val, err2 := future1.Await()
+	if err2 != nil {
+		er1 := fmt.Sprintf("service hit failed: %s\n", err2)
+		derr := status.Errorf(4001202, er1)
+		return "None", derr
+	}
+
+	ct, _ := hex.DecodeString(cipherText)
+	block, _ := pem.Decode([]byte(val.(string)))
+	if block.Type != "RSA PRIVATE KEY" {
+		er2 := fmt.Sprintf("error decoding private key from pem")
+		derr := status.Errorf(4001202, er2)
+		return "None", derr
+	}
+
+	parsedKey, err3 := x509.ParsePKCS1PrivateKey(block.Bytes)
+	if err3 != nil {
+		er3 := fmt.Sprintf("error parsing key")
+		derr := status.Errorf(4001202, er3)
+		return "None", derr
+	}
+	rng := rand.Reader
+	message, err4 := rsa.DecryptOAEP(sha256.New(), rng, parsedKey, ct, nil)
+	if err4 != nil {
+		er4 := fmt.Sprintf(err4.Error())
+		derr := status.Errorf(4001202, er4)
+		return "None", derr
+	}
+
+	return string(message), nil
 }
 
 func AUTH_RSA_OAEP_Encrypt(secretMessage string, clientid string) (string, error) {
