@@ -40,6 +40,8 @@ type Error struct {
 	Realm Realm
 	// The underlying error that triggered this one, if any.
 	Err error
+
+	Message string `json:"msg"`
 }
 
 func (e *Error) isZero() bool {
