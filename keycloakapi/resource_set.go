@@ -5,7 +5,7 @@ import (
 	//"errors"
 	"time"
 
-	"github.com/aburavi/snaputils/proto/auth"
+	"github.com/aburavi/snaputils/proto/authv1"
 
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
@@ -26,11 +26,11 @@ func GrpcCheckUriAccess(authgrpc, uri, token string) ([]string, error) {
 	}
 	defer conn.Close()
 
-	client := auth.NewAuthV1Client(conn)
+	client := authv1.NewAuthV1Client(conn)
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
 	//defer cancel()
 
-	response, err := client.GetResourceSetUriV1(ctx, &auth.ResourceSetUriV1Request{Uri: uri, Token: token})
+	response, err := client.GetResourceSetUriV1(ctx, &authv1.ResourceSetUriV1Request{Uri: uri, Token: token})
 	if err != nil {
 		derr := status.Errorf(4011301, "Access Token Invalid")
 		fmt.Println("Error when callin resourceset uri: %s", derr)
@@ -51,11 +51,11 @@ func GrpcKeycloakResourceAttributes(authgrpc, resourcesetid string, token string
 	}
 	defer conn.Close()
 
-	client := auth.NewAuthV1Client(conn)
+	client := authv1.NewAuthV1Client(conn)
 	ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
 	//defer cancel()
 
-	response, err := client.GetResourceSetAttributeV1(ctx, &auth.ResourceSetAttributeV1Request{ResourceId: resourcesetid, Token: token})
+	response, err := client.GetResourceSetAttributeV1(ctx, &authv1.ResourceSetAttributeV1Request{ResourceId: resourcesetid, Token: token})
 	if err != nil {
 		derr := status.Errorf(4011301, "Access Token Invalid")
 		fmt.Println("Error when callin resource attribute: %s", derr)

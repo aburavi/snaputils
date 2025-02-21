@@ -12,7 +12,7 @@ import (
 	"strings"
 
 	"github.com/aburavi/snaputils/apisignature"
-	"github.com/aburavi/snaputils/proto/auth"
+	"github.com/aburavi/snaputils/proto/authv1"
 
 	"github.com/valyala/fasthttp"
 	"google.golang.org/grpc/codes"
@@ -24,7 +24,7 @@ type ResourceSet struct {
 	Uris []string `json:"uris,omitempty"`
 }
 
-func KeycloakAuthV1(ctx context.Context, req *auth.AuthV1Request, backendgrpc string) (*auth.AuthV1Response, error) {
+func KeycloakAuthV1(ctx context.Context, req *authv1.AuthV1Request, backendgrpc string) (*authv1.AuthV1Response, error) {
 	var base = os.Getenv("URL_KEYCLOAK_BASE")
 	var uri = base + "/realms/openapi/protocol/openid-connect/token"
 
@@ -38,7 +38,7 @@ func KeycloakAuthV1(ctx context.Context, req *auth.AuthV1Request, backendgrpc st
 	}
 
 	rspdata := TokenV1Response{}
-	protosdata := auth.AuthV1Response{}
+	protosdata := authv1.AuthV1Response{}
 	xUrlMethod := ""
 	xUrlPath := ""
 	contentType := ""
@@ -179,7 +179,7 @@ func KeycloakAuthV1(ctx context.Context, req *auth.AuthV1Request, backendgrpc st
 	return &protosdata, nil
 }
 
-func KeycloakRefreshAuthV1(ctx context.Context, req *auth.RefreshAuthV1Request, backendgrpc string) (*auth.RefreshAuthV1Response, error) {
+func KeycloakRefreshAuthV1(ctx context.Context, req *authv1.RefreshAuthV1Request, backendgrpc string) (*authv1.RefreshAuthV1Response, error) {
 	var base = os.Getenv("URL_KEYCLOAK_BASE")
 	var uri = base + "/realms/openapi/protocol/openid-connect/token"
 
@@ -194,7 +194,7 @@ func KeycloakRefreshAuthV1(ctx context.Context, req *auth.RefreshAuthV1Request, 
 	}
 
 	rspdata := TokenV1Response{}
-	protosdata := auth.RefreshAuthV1Response{}
+	protosdata := authv1.RefreshAuthV1Response{}
 	xUrlMethod := ""
 	xUrlPath := ""
 	contentType := ""
@@ -336,7 +336,7 @@ func KeycloakRefreshAuthV1(ctx context.Context, req *auth.RefreshAuthV1Request, 
 	return &protosdata, nil
 }
 
-func KeycloakAuthV1Http(req *http.Request) (*auth.AuthV1Response, error) {
+func KeycloakAuthV1Http(req *http.Request) (*authv1.AuthV1Response, error) {
 	var base = os.Getenv("URL_KEYCLOAK_BASE")
 	var uri = base + "/realms/openapi/protocol/openid-connect/token"
 
@@ -350,7 +350,7 @@ func KeycloakAuthV1Http(req *http.Request) (*auth.AuthV1Response, error) {
 	}
 
 	rspdata := TokenV1Response{}
-	protosdata := auth.AuthV1Response{}
+	protosdata := authv1.AuthV1Response{}
 	contentType := req.Header.Get("Content-type")
 	channelId := req.Header.Get("CHANNEL-ID")
 	xExternalId := req.Header.Get("X-External-ID")
@@ -438,11 +438,11 @@ func KeycloakAuthV1Http(req *http.Request) (*auth.AuthV1Response, error) {
 	return &protosdata, nil
 }
 
-func KeycloakCheckUriV1Access(ctx context.Context, req *auth.ResourceSetUriV1Request) (*auth.ResourceSetUriV1Response, error) {
+func KeycloakCheckUriV1Access(ctx context.Context, req *authv1.ResourceSetUriV1Request) (*authv1.ResourceSetUriV1Response, error) {
 	var base = os.Getenv("URL_KEYCLOAK_BASE")
 	var stype = os.Getenv("TYPE")
 	var kcurl = base + "/realms/openapi/authz/protection/resource_set?uri=/" + stype + req.Uri
-	var data = auth.ResourceSetUriV1Response{}
+	var data = authv1.ResourceSetUriV1Response{}
 	fmt.Printf(kcurl)
 
 	dreq := fasthttp.AcquireRequest()
@@ -478,10 +478,10 @@ func KeycloakCheckUriV1Access(ctx context.Context, req *auth.ResourceSetUriV1Req
 	return &data, nil
 }
 
-func KeycloakCheckAttributeV1Access(ctx context.Context, req *auth.ResourceSetAttributeV1Request) (*auth.ResourceSetAttributeV1Response, error) {
+func KeycloakCheckAttributeV1Access(ctx context.Context, req *authv1.ResourceSetAttributeV1Request) (*authv1.ResourceSetAttributeV1Response, error) {
 	var base = os.Getenv("URL_KEYCLOAK_BASE")
 	var kcurl = base + "/realms/openapi/authz/protection/resource_set/" + req.ResourceId
-	var data = auth.ResourceSetAttributeV1Response{}
+	var data = authv1.ResourceSetAttributeV1Response{}
 
 	dreq := fasthttp.AcquireRequest()
 	defer fasthttp.ReleaseRequest(dreq)

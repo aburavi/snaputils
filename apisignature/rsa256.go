@@ -13,6 +13,7 @@ import (
 
 	"github.com/aburavi/snaputils/async"
 	"github.com/aburavi/snaputils/proto/backend"
+
 	"github.com/valyala/fasthttp"
 	"google.golang.org/grpc/credentials/insecure"
 )
