@@ -15,8 +15,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func GrpcExternalId(userid, refid, datetime string) (*storage.ExternalIdResponse, error) {
-	conn, err := grpc.Dial("storage.snap-aspi:30061", grpc.WithInsecure())
+func GrpcExternalId(storegrpc, userid, refid, datetime string) (*storage.ExternalIdResponse, error) {
+	conn, err := grpc.Dial(storegrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
 		derr := status.Errorf(4051300, er)
@@ -39,8 +39,8 @@ func GrpcExternalId(userid, refid, datetime string) (*storage.ExternalIdResponse
 	return response, nil
 }
 
-func GrpcRefferenceNo(userid, refid, datetime string) (*storage.ReffNoResponse, error) {
-	conn, err := grpc.Dial("nodestorage.openapi:50057", grpc.WithInsecure())
+func GrpcRefferenceNo(storegrpc, userid, refid, datetime string) (*storage.ReffNoResponse, error) {
+	conn, err := grpc.Dial(storegrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
 		derr := status.Errorf(4051300, er)
@@ -64,8 +64,8 @@ func GrpcRefferenceNo(userid, refid, datetime string) (*storage.ReffNoResponse, 
 	return response, nil
 }
 
-func GrpcSetTrxId(userid, orirefid, refid string) (*storage.TrxIdResponse, error) {
-	conn, err := grpc.Dial("nodestorage.openapi:50057", grpc.WithInsecure())
+func GrpcSetTrxId(storegrpc, userid, orirefid, refid string) (*storage.TrxIdResponse, error) {
+	conn, err := grpc.Dial(storegrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
 		derr := status.Errorf(4051300, er)
@@ -89,8 +89,8 @@ func GrpcSetTrxId(userid, orirefid, refid string) (*storage.TrxIdResponse, error
 	return response, nil
 }
 
-func GrpcGetTrxId(userid, orirefid string) (*storage.TrxIdResponse, error) {
-	conn, err := grpc.Dial("nodestorage.openapi:50057", grpc.WithInsecure())
+func GrpcGetTrxId(storegrpc, userid, orirefid string) (*storage.TrxIdResponse, error) {
+	conn, err := grpc.Dial(storegrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
 		derr := status.Errorf(4051300, er)

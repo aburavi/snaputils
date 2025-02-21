@@ -15,8 +15,8 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func GrpcPushSlidingWindow(userid, max string) (*ratelimiter.RatelimiterPushSlidingWindowResponse, error) {
-	conn, err := grpc.Dial("ratelimiter.snap-aspi:30062", grpc.WithInsecure())
+func GrpcPushSlidingWindow(ratelimitergrpc, userid, max string) (*ratelimiter.RatelimiterPushSlidingWindowResponse, error) {
+	conn, err := grpc.Dial(ratelimitergrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
 		derr := status.Errorf(4051200, er)

@@ -17,8 +17,8 @@ type Attr struct {
 	Max         []string `json:"max,omitempty"`
 }
 
-func GrpcCheckUriAccess(uri, token string) ([]string, error) {
-	conn, err := grpc.Dial("auth.snap-aspi:30051", grpc.WithInsecure())
+func GrpcCheckUriAccess(authgrpc, uri, token string) ([]string, error) {
+	conn, err := grpc.Dial(authgrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
 		derr := status.Errorf(4011302, er)
@@ -42,8 +42,8 @@ func GrpcCheckUriAccess(uri, token string) ([]string, error) {
 	return response.ResourceId, nil
 }
 
-func GrpcKeycloakResourceAttributes(resourcesetid string, token string) ([]string, []string, error) {
-	conn, err := grpc.Dial("auth.snapaspi:30051", grpc.WithInsecure())
+func GrpcKeycloakResourceAttributes(authgrpc, resourcesetid string, token string) ([]string, []string, error) {
+	conn, err := grpc.Dial(authgrpc, grpc.WithInsecure())
 	if err != nil {
 		er := fmt.Sprintf("fail to dial: %v", err)
 		derr := status.Errorf(4011302, er)
