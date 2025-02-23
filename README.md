@@ -1,0 +1,2 @@
+# snaputils
+OpenAPi SNAP Utils
