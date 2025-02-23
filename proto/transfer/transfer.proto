@@ -1,0 +1,165 @@
+syntax = "proto3";
+
+option go_package = "./proto/transfer";
+
+package transfer;
+
+// Interface exported by the server.
+service Transfer {
+  rpc PostTransferInterBank (TransferInterBankRequest) returns (TransferInterBankResponse) {}
+  rpc PostTransferIntraBank (TransferIntraBankRequest) returns (TransferIntraBankResponse) {}
+  rpc PostTransferPaymentHostoHost (TransferPaymentHostoHostRequest) returns (TransferPaymentHostoHostResponse) {}
+  rpc PostTransferStatus (TransferStatusRequest) returns (TransferStatusResponse) {}
+}
+
+message Amount {
+  string value = 1;
+  string currency = 2;
+}
+
+message Info {
+  string deviceId = 1;
+  string channel = 2;
+}
+
+message UrlParam {
+  string url = 1;
+  string type = 2;
+  string isDeeplink = 3;
+}
+
+message PayOptionDetail {
+  string payMethod = 1;
+  string payOption = 2;
+  Amount transAmount = 3;
+  Amount feeAmount = 4;
+  string cardToken = 5;
+  string merchantToken = 6;
+  Info additionalInfo = 7;
+}
+
+// The request message containing the user's name.
+message TransferInterBankRequest {
+  string partnerReferenceNo = 1;
+  Amount amount = 2;
+  string beneficiaryAccountName = 3;
+  string beneficiaryAccountNo = 4;
+  string beneficiaryAddress = 5;
+  string beneficiaryBankCode = 6;
+  string beneficiaryBankName = 7;
+  string beneficiaryEmail = 8;
+  string currency = 9;
+  string customerReference = 10;
+  string sourceAccountNo = 11;
+  string transactionDate = 12;
+  string feeType = 13;
+  Info additionalInfo = 14;
+}
+
+// The response message containing the greetings
+message TransferInterBankResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string referenceNo = 3;
+  string partnerReferenceNo = 4;
+  Amount amount = 5;
+  string beneficiaryAccountNo = 6;
+  string beneficiaryBankCode = 7;
+  string sourceAccountNo = 8;
+  string traceNo = 9;
+  Info additionalInfo = 10;
+}
+
+// The request message containing the user's name.
+message TransferIntraBankRequest {
+  string partnerReferenceNo = 1;
+  Amount amount = 2;
+  string beneficiaryAccountNo = 3;
+  string beneficiaryEmail = 4;
+  string currency = 5;
+  string customerReference = 6;
+  string feeType = 7;
+  string remark = 8;
+  string sourceAccountNo = 9;
+  string transactionDate = 10;
+  Info additionalInfo = 11;
+}
+
+// The response message containing the greetings
+message TransferIntraBankResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string referenceNo = 3;
+  string partnerReferenceNo = 4;
+  Amount amount = 5;
+  string beneficiaryAccountNo = 6;
+  string currency = 7;
+  string customerReference = 8;
+  string sourceAccount = 9;
+  string transactionDate = 10;
+  Info additionalInfo = 11;
+}
+
+// The request message containing the user's name.
+message TransferStatusRequest {
+  string originalPartnerReferenceNo = 1;
+  string originalReferenceNo = 2;
+  string originalExternalId = 3;
+  string serviceCode = 4;
+  string transactionDate = 5;
+  Amount amount = 6;
+  Info additionalInfo = 7;
+}
+
+// The response message containing the greetings
+message TransferStatusResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string originalReferenceNo = 3;
+  string originalPartnerReferenceNo = 4;
+  string originalExternalId = 5;
+  string serviceCode = 6;
+  string transactionDate = 7;
+  Amount amount = 8;
+  string beneficiaryAccountNo = 9;
+  string beneficiaryBankCode = 10;
+  string currency = 11;
+  string previousResponseCode = 12;
+  string referenceNumber = 13;
+  string sourceAccountNo = 14;
+  string transactionId = 15;
+  string latestTransactionStatus = 16;
+  string transactionStatusDesc = 17;
+  Info additionalInfo = 18;
+}
+
+message TransferPaymentHostoHostRequest {
+  string partnerReferenceNo = 1;
+  string bankCardToken = 2;
+  string otp = 3;
+  string merchantId = 4;
+  string terminalId = 5;
+  string journeyId = 6;
+  string subMerchantId = 7;
+  Amount amount = 8;
+  repeated UrlParam urlParams = 9;
+  string externalStoreId = 10;
+  string validUpTo = 11;
+  string pointOfInitiation = 12;
+  string feeType = 13;
+  string disabledPayMethods = 14;
+  repeated PayOptionDetail payOptionDetails = 15;
+  Info additionalInfo = 16;
+}
+
+
+message TransferPaymentHostoHostResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string referenceNo = 3;
+  string partnerReferenceNo = 4;
+  string approvalCode = 5;
+  string appRedirectUrl = 6;
+  string webRedirectUrl = 7;
+  Info additionalInfo = 8;
+}

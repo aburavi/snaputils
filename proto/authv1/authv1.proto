@@ -1,0 +1,78 @@
+syntax = "proto3";
+option go_package = "./proto/authv1";
+
+package authv1;
+
+// Interface exported by the server.
+service AuthV1 {
+  rpc GetAuthV1(AuthV1Request) returns (AuthV1Response) {}
+  rpc GetRefreshAuthV1(RefreshAuthV1Request) returns (RefreshAuthV1Response) {}
+  rpc GetResourceSetAttributeV1(ResourceSetAttributeV1Request) returns (ResourceSetAttributeV1Response) {}
+  rpc GetResourceSetUriV1(ResourceSetUriV1Request) returns (ResourceSetUriV1Response) {}
+}
+
+message Info {
+  string deviceId = 1;
+  string channel = 2;
+}
+
+message AuthV1Request {
+  string grantType = 1 [json_name="grant_type, omitempty"];
+  Info additionalInfo = 2;
+}
+
+message AuthV1Response {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string accessToken = 3;
+  string tokenType= 4;
+  int32 expiresIn = 5;
+  Info additionalInfo = 6;
+}
+
+message RefreshAuthV1Request {
+  string refreshToken = 1 [json_name="refresh_token, omitempty"];
+  Info additionalInfo = 2;
+}
+
+message RefreshAuthV1Response {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string accessToken = 3;
+  string refreshToken = 4;
+  string tokenType= 5;
+  int32 expiresIn = 6;
+  Info additionalInfo = 7;
+}
+
+message Attr {
+  repeated string srcRekening = 1;
+  repeated string max = 2;
+}
+
+message ResourceSetAttributeV1Request {
+  string resourceId = 1;
+  string token = 2;
+}
+
+message Scps {
+  string name = 1;
+}
+
+message ResourceSetAttributeV1Response {
+  string name = 1;
+  string type = 2;
+  Attr attributes = 3;
+  repeated string uris = 4;
+  repeated Scps resourceScopes = 5;
+  repeated Scps scopes = 6; 
+}
+
+message ResourceSetUriV1Request {
+  string uri = 1;
+  string token = 2;
+}
+
+message ResourceSetUriV1Response {
+  repeated string resourceId = 1;
+}

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+option go_package = "./proto/ratelimiter";
+
+package ratelimiter;
+
+// Interface exported by the server.
+service Ratelimiter {
+  rpc PushSlidingWindow(RatelimiterPushSlidingWindowRequest) returns (RatelimiterPushSlidingWindowResponse) {}
+}
+
+message RatelimiterPushSlidingWindowRequest {
+  string clientId = 1;
+  int64 max = 2;
+}
+
+message RatelimiterPushSlidingWindowResponse {
+  bool status = 1;
+  string description = 2;
+}

@@ -1,0 +1,73 @@
+syntax = "proto3";
+option go_package = "./proto/history";
+
+package history;
+
+// Interface exported by the server.
+service History {
+  rpc GetTransactionHistoryDetail (TransactionHistoryDetailRequest) returns (TransactionHistoryDetailResponse) {}
+  rpc GetTransactionHistoryList (TransactionHistoryListRequest) returns (TransactionHistoryListResponse) {}
+}
+
+message Info {
+  string deviceId = 1;
+  string channel = 2;
+}
+
+message Avalue {
+  string value = 1;
+  string currency = 2;
+}
+
+message SrcFund {
+  string source = 1;
+  Avalue amount = 2;
+}
+
+message Detail {
+  string dateTime = 1;
+  Avalue amount = 2;
+  string remark = 3;
+  repeated SrcFund sourceOfFunds = 4;
+  string status = 5;
+  string type = 6;
+  Info additionalInfo = 7;
+}
+
+// The request message containing the user's name.
+message TransactionHistoryDetailRequest {
+  string originalPartnerReferenceNo = 1;
+  Info additionalInfo = 2;
+}
+
+// The response message containing the greetings
+message TransactionHistoryDetailResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string referenceNo = 3;
+  string partnerReferenceNo = 4;
+  repeated Detail detailData = 5;
+  Info additionalInfo = 6;
+}
+
+// The request message containing the user's name.
+message TransactionHistoryListRequest {
+  string partnerReferenceNo = 1;
+  string fromDateTime = 2;
+  string toDateTime = 3;
+  string pageSize = 4;
+  string pageNumber = 5;
+  Info additionalInfo = 6;
+}
+
+// The response message containing the greetings
+message TransactionHistoryListResponse {
+  string responseCode = 1;
+  string responseMessage = 2;
+  string referenceNo = 3;
+  string partnerReferenceNo = 4;
+  repeated Detail detailData = 5;
+  string status = 6;
+  string type = 7;
+  Info additionalInfo = 8;
+}

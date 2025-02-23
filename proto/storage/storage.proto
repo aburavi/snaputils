@@ -1,0 +1,46 @@
+syntax = "proto3";
+option go_package = "./proto/storage";
+
+package storage;
+
+// Interface exported by the server.
+service Storage {
+  rpc PostExternalId(ExternalIdRequest) returns (ExternalIdResponse) {}
+  rpc PostRefferenceNo(ReffNoRequest) returns (ReffNoResponse) {}
+  rpc PostTrxId(TrxIdRequest) returns (TrxIdResponse) {}
+  rpc GetTrxId(TrxIdRequest) returns (TrxIdResponse) {}
+}
+
+message ExternalIdRequest {
+  string clientId = 1;
+  string externalId = 2;
+  string datetime = 3;
+}
+
+message ExternalIdResponse {
+  bool status = 1;
+  string description = 2;
+}
+
+message ReffNoRequest {
+  string clientId = 1;
+  string reffNo = 2;
+  string datetime = 3;
+}
+
+message ReffNoResponse {
+  bool status = 1;
+  string description = 2;
+}
+
+message TrxIdRequest {
+  string clientId = 1;
+  string originalReffNo = 2;
+  string reffNo = 3;
+  string datetime = 4;
+}
+
+message TrxIdResponse {
+  bool status = 1;
+  string reffNo = 2;
+}
